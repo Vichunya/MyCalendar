@@ -1,3 +1,17 @@
 .month {
+    color: orchid;
+    text-align: center;
+}
+
+.days {
     color: blue;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.days,
+.dates {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 15px;
 }
