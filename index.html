@@ -111,13 +111,17 @@
     <div>30</div>
   </div>
 
-<div class = "modal modal_close">
-  <div class = "modal_content">
-    <h2>Заметка</h2>
+  <!-- Модальное окно -->
+  <div id="myModal" class="modal"> <!-- могу ли в данном случае убрать id ? -->
+    <div class="modal-content">  <!-- содержимое окна -->
+      <span class="close">❌</span>   <!-- знак закрытия -->
+      <p id="selected-date">Заметка</p> <!--  для JS -->
+    </div>
   </div>
-</div>
 
-<script src="main.js"></script> 
+  <script type="module" src="src/main.js"></script>
+  <script type="module" src="src/test.js"></script>
+
 </body>
 
 </html>
