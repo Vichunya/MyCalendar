@@ -13,4 +13,13 @@ dates.forEach(date => {
   })
 });
 
+const closeButton = document.querySelector('.close'); // закрытие по кнопке 
+closeButton.addEventListener('click', function(event){    // без event тоже работает
+  modal.style.display = 'none';
+});
 
+modal.addEventListener('click', function(event) {  // работает без forEach // закрытие вне окна 
+ if(event.target === modal){
+  modal.style.display = 'none';
+ }
+});
