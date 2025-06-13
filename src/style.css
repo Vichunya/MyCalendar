@@ -17,20 +17,31 @@
 }
 
 .dates div:hover {
-background-color: lightgreen;
-cursor: pointer;
-border-radius: 10px;
+    background-color: lightgreen;
+    cursor: pointer;
+    border-radius: 10px;
 }
 
 .modal {
-    display: none; /* скрыт по умолчанию */
-    background-color: red;
-}
+    display: none; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1 ; /* чтобы было поверх всего */
+    background-color: pink;
 
-/*.modal-content {     в рекомендациях
-    background-color: ;
-}
-*/ 
-/* .modal.open {
-    display: block; 
-  } */
+  }
+  
+  .modal-content {
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50vw; /* половина ширины окна */
+    height: 50vh; /* половина высоты окна */
+   
+  }
+  
+
+  
