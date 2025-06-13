@@ -23,9 +23,14 @@ border-radius: 10px;
 }
 
 .modal {
-    display: none;
+    display: none; /* скрыт по умолчанию */
+    background-color: red;
 }
 
-.modal.open {
+/*.modal-content {     в рекомендациях
+    background-color: ;
+}
+*/ 
+/* .modal.open {
     display: block; 
-  }
+  } */

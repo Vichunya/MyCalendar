@@ -5,14 +5,12 @@ import viteLogo from '/vite.svg'
 
 const modal = document.querySelector('.modal');
 const dates = document.querySelectorAll('.dates div');
+console.log(dates);
 
-function openModal(modal) {
-  modal.classList.add("open");
-}
+dates.forEach(date => {
+  date.addEventListener('click', function (event) {
+    modal.style.display = 'block';
+  })
+});
 
-dates.forEach((date) => {
- 
-}
-
-);
 
