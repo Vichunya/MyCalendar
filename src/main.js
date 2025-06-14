@@ -18,7 +18,7 @@ closeButton.addEventListener('click', function(event){    // без event тож
   modal.style.display = 'none';
 });
 
-modal.addEventListener('click', function(event) {  // работает без forEach // закрытие вне окна 
+modal.addEventListener('click', function(event) {  // работает без forEach // закрытие вне окна
  if(event.target === modal){
   modal.style.display = 'none';
  }
