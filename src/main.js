@@ -41,29 +41,29 @@ let currentDateKey = ''; // текущий выбранный ключ даты
 
 dates.forEach(date => {
   date.addEventListener('click', function (event) {
-    const day = event.target.textContent;
-    if (!day) return; // пропускаем пустые ячейки
+    const day = event.target.textContent; // Извлекаем содержимое элемента, на который кликнули //Сохраняем этот текст в переменную day
+    if (!day) return; // пропускаем пустые ячейки // не очень понятно все равно 
 
     // Определяем месяц, найдя ближайший предыдущий .month элемент
-    const monthElement = event.target.closest('.dates').previousElementSibling.previousElementSibling;
+    const monthElement = event.target.closest('.dates').previousElementSibling.previousElementSibling;//не понимаю 
     const month = monthElement ? monthElement.textContent.trim() : 'Неизвестно';
 
     // Создаём ключ вида "Июнь 2025-14"
     currentDateKey = `${month}-${day}`;
 
     // Загружаем заметку, если есть
-    noteArea.textContent = notes[currentDateKey] || '';
+    noteArea.textContent = notes[currentDateKey] || ''; // обращаемся к ключу currentDateKey объекта notes, и заносим его значение в noteArea
 
     modal.style.display = 'block';
   });
 });
 
-closeButton.addEventListener('click', function () {
-  saveCurrentNote();
+closeButton.addEventListener('click', function () {  // закрытие по кнопке
+  saveCurrentNote();  // вызывается ниже, ф-я сохранения заметки 
   modal.style.display = 'none';
 });
 
-modal.addEventListener('click', function (event) {
+modal.addEventListener('click', function (event) {   // закрытие вне окна
   if (event.target === modal) {
     saveCurrentNote();
     modal.style.display = 'none';
@@ -73,7 +73,7 @@ modal.addEventListener('click', function (event) {
 // Сохраняем заметку в объект
 function saveCurrentNote() {
   if (currentDateKey) {
-    notes[currentDateKey] = noteArea.textContent;
+    notes[currentDateKey] = noteArea.textContent; //сохраняет в данный ключ сurrentDateKey текст, к-й ввел польз-ль
     console.log(`Заметка для ${currentDateKey}:`, notes[currentDateKey]);
   }
 }
