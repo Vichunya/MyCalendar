@@ -42,17 +42,20 @@ let currentDateKey = ''; // текущий выбранный ключ даты
 dates.forEach(date => {
   date.addEventListener('click', function (event) {
     const day = event.target.textContent; // Извлекаем содержимое элемента, на который кликнули //Сохраняем этот текст в переменную day
+    console.log(`выбранный день:${day}`);
     if (!day) return; // пропускаем пустые ячейки // не очень понятно все равно 
 
     // Определяем месяц, найдя ближайший предыдущий .month элемент
     const monthElement = event.target.closest('.dates').previousElementSibling.previousElementSibling;//не понимаю 
+    console.log(event.target.closest('.dates').previousElementSibling.previousElementSibling);
     const month = monthElement ? monthElement.textContent.trim() : 'Неизвестно';
 
     // Создаём ключ вида "Июнь 2025-14"
     currentDateKey = `${month}-${day}`;
 
     // Загружаем заметку, если есть
-    noteArea.textContent = notes[currentDateKey] || ''; // обращаемся к ключу currentDateKey объекта notes, и заносим его значение в noteArea
+    const note = localStorage.getItem(currentDateKey);
+    noteArea.textContent = note || ''; // обращаемся к ключу currentDateKey объекта notes, и заносим его значение в noteArea
 
     modal.style.display = 'block';
   });
@@ -73,7 +76,7 @@ modal.addEventListener('click', function (event) {   // закрытие вне 
 // Сохраняем заметку в объект
 function saveCurrentNote() {
   if (currentDateKey) {
-    notes[currentDateKey] = noteArea.textContent; //сохраняет в данный ключ сurrentDateKey текст, к-й ввел польз-ль
+    localStorage.setItem(currentDateKey, noteArea.textContent); 
     console.log(`Заметка для ${currentDateKey}:`, notes[currentDateKey]);
   }
 }
