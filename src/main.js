@@ -81,27 +81,65 @@ function saveCurrentNote() {
   }
 }
 // КНОПКА ENTER для СПИСКА 
-noteArea.addEventListener('keydown', function(event) {
-  if (event.key === 'Enter') {
+noteArea.addEventListener('keydown', function(event) { // keydown срабатывает при нажатии любой клавиши
+  if (event.key === 'Enter') {  // event.key - это встроенное свойство, возвращает название нажатой клавиши
     event.preventDefault(); // Отменяем стандартное поведение (перенос строки)
     
     // Создаём новый элемент списка
-    const bullet = document.createElement('div');
+    const bullet = document.createElement('div'); // ЗАМЕНИТЬ НАЗВАНИЕ //встроенный метод для создания нового элемента
     bullet.textContent = '• ';
     
-    // Вставляем его после текущей строки
-    const selection = window.getSelection();
-    if (!selection.rangeCount) return;
+    // Вставляем его после текущей строки    //window.getSelection()- или где находится курсор
+    const selection = window.getSelection();//window.getSelection()-встр.метод, возвращает текущий выделенный текст
+    if (!selection.rangeCount) return; // .rangeCount - диапазон выделения (для чего ?) 
     
-    const range = selection.getRangeAt(0);
-    range.collapse(false); // курсор в конец
+    const range = selection.getRangeAt(0);// получаем диапазон или курсор ?
+    range.collapse(false); // курсор в конец // сдвигает диапазон в одну точку ? false - сожмётся в конец выделения
 
-    range.insertNode(bullet);
-
+    range.insertNode(bullet);// Вставляем в DOM новый div в текущую позицию курсора
+ 
     // Перемещаем курсор внутрь новой строки
-    range.setStart(bullet, 1);
-    range.setEnd(bullet, 1);
+    range.setStart(bullet, 1); //"установить курсор после первого символа"
+    range.setEnd(bullet, 1); //(• занимает позицию 0) РАЗОБРАТЬСЯ 
     selection.removeAllRanges();
     selection.addRange(range);
   }
 });
+
+// ВЫДЕЛЕНИЕ ДНЯ, ГДЕ ЕСТЬ ЗАМЕТКА
+function highlightDaysWithNotes() {
+  // Получаем все блоки с датами
+  const allDatesBlocks = document.querySelectorAll('.dates');
+  
+  allDatesBlocks.forEach(datesBlock => {
+    // Находим предыдущий элемент с классом month и берем из него месяц
+    const monthElement = datesBlock.previousElementSibling.previousElementSibling;
+    const month = monthElement ? monthElement.textContent.trim() : 'Неизвестно';
+
+    // Проходимся по всем div с числами внутри блока dates
+    datesBlock.querySelectorAll('div').forEach(dayDiv => {
+      const day = dayDiv.textContent.trim();
+      if (!day) return; // пропускаем пустые ячейки
+
+      const key = `${month}-${day}`;
+      const note = localStorage.getItem(key);
+      if (note && note.trim() !== '') {
+        dayDiv.classList.add('has-note'); // добавляем класс
+      } else {
+        dayDiv.classList.remove('has-note'); // на всякий случай убираем класс если заметки нет
+      }
+    });
+  });
+}
+
+// Вызываем функцию сразу после загрузки
+highlightDaysWithNotes();
+
+// А также можно вызывать её после сохранения заметки
+// Для этого можно обернуть saveCurrentNote так:
+
+const originalSaveCurrentNote = saveCurrentNote;
+saveCurrentNote = function() {
+  originalSaveCurrentNote();
+  highlightDaysWithNotes();
+};

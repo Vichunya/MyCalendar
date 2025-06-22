@@ -61,3 +61,11 @@
     background-color: #f9f9f9;
     border-radius: 8px;
 }
+
+.dates div.has-note {
+    background-color: gold;
+    border-radius: 50%;
+    font-weight: bold;
+    color: darkred;
+  }
+  
