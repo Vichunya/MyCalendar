@@ -33,6 +33,7 @@ const modal = document.querySelector('.modal');
 const dates = document.querySelectorAll('.dates div');
 const noteArea = document.getElementById('note-area');
 const closeButton = document.querySelector('.close');
+const modalContent = document.getElementById('modalContent');
 
 // Объект для хранения заметок по дате
 const notes = {};
@@ -54,8 +55,18 @@ dates.forEach(date => {
     currentDateKey = `${month}-${day}`;
 
     // Загружаем заметку, если есть
-    const note = localStorage.getItem(currentDateKey); // по ключу вида "Июнь 2025-14"
-    noteArea.textContent = note || ''; // обращаемся к ключу currentDateKey объекта notes, и заносим его значение в noteArea
+    const bulletString = localStorage.getItem(currentDateKey); // по ключу вида "Июнь 2025-14"
+    const bulletList = bulletString ? bulletString.split(","): []; // по ключу вида "Июнь 2025-14"
+
+    
+    bulletList.forEach(bullet => {
+      const bulletElement = document.createElement('div'); //встроенный метод для создания нового элемента
+      bulletElement.textContent = bullet;
+      
+      modalContent.appendChild(bullet);
+    });
+
+
 
     modal.style.display = 'block';
   });
@@ -76,7 +87,12 @@ modal.addEventListener('click', function (event) {   // закрытие вне 
 // Сохраняем заметку в объект
 function saveCurrentNote() {
   if (currentDateKey) {      // ключ вида "Июнь 2025-14" 
-    localStorage.setItem(currentDateKey, noteArea.textContent); // ключ, заметка 
+    const bullets = modalContent.querySelectorAll('div');//нашли все буллеты
+    const bulletList = []; //сделали пустой список 
+    bullets.forEach(bullet => {
+      bulletList.push(bullet.textContent);  // заполнили список 
+    });
+    localStorage.setItem(currentDateKey, bulletList); // ключ, cохранили в список 
     console.log(`Заметка для ${currentDateKey}:`, notes[currentDateKey]);
   }
 }
@@ -86,23 +102,11 @@ noteArea.addEventListener('keydown', function(event) { // keydown срабаты
     event.preventDefault(); // Отменяем стандартное поведение (перенос строки)
     
     // Создаём новый элемент списка
-    const bullet = document.createElement('div'); // ЗАМЕНИТЬ НАЗВАНИЕ //встроенный метод для создания нового элемента
-    bullet.textContent = '• ';
+    const bullet = document.createElement('div'); //встроенный метод для создания нового элемента
+    bullet.textContent = '- ' + noteArea.value;
+    noteArea.value = '';
     
-    // Вставляем его после текущей строки    //window.getSelection()- или где находится курсор
-    const selection = window.getSelection();//window.getSelection()-встр.метод, возвращает текущий выделенный текст
-    if (!selection.rangeCount) return; // .rangeCount - диапазон выделения (для чего ?) 
-    
-    const range = selection.getRangeAt(0);// получаем диапазон или курсор ?
-    range.collapse(false); // курсор в конец // сдвигает диапазон в одну точку ? false - сожмётся в конец выделения
-
-    range.insertNode(bullet);// Вставляем в DOM новый div в текущую позицию курсора
- 
-    // Перемещаем курсор внутрь новой строки
-    range.setStart(bullet, 1); //"установить курсор после первого символа"
-    range.setEnd(bullet, 1); //(• занимает позицию 0) РАЗОБРАТЬСЯ 
-    selection.removeAllRanges();
-    selection.addRange(range);
+    modalContent.appendChild(bullet);
   }
 });
 
@@ -111,19 +115,19 @@ function highlightDaysWithNotes() {
   // Получаем все блоки с датами
   const allDatesBlocks = document.querySelectorAll('.dates');
   
-  allDatesBlocks.forEach(datesBlock => {
+  allDatesBlocks.forEach(datesBlock => {  // 2 блока по 30 дней 
     // Находим предыдущий элемент с классом month и берем из него месяц
-    const monthElement = datesBlock.previousElementSibling.previousElementSibling;
+    const monthElement = datesBlock.previousElementSibling.previousElementSibling; // найдет каждый месяц 
     const month = monthElement ? monthElement.textContent.trim() : 'Неизвестно';
 
-    // Проходимся по всем div с числами внутри блока dates
+    // Проходимся по всем div с числами внутри блока dates // бежит по каждому из блоков (их 2)
     datesBlock.querySelectorAll('div').forEach(dayDiv => {
       const day = dayDiv.textContent.trim();
       if (!day) return; // пропускаем пустые ячейки
 
       const key = `${month}-${day}`;
       const note = localStorage.getItem(key);
-      if (note && note.trim() !== '') {
+      if (note && note.length !== 0) {
         dayDiv.classList.add('has-note'); // добавляем класс
       } else {
         dayDiv.classList.remove('has-note'); // на всякий случай убираем класс если заметки нет
