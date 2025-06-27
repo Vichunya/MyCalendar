@@ -53,22 +53,23 @@ dates.forEach(date => {
 
     // Создаём ключ вида "Июнь 2025-14"  
     currentDateKey = `${month}-${day}`;
-
+    modal.style.display = 'block';
     // Загружаем заметку, если есть
     const bulletString = localStorage.getItem(currentDateKey); // по ключу вида "Июнь 2025-14", получает данные
     const bulletList = bulletString ? bulletString.split(","): []; // если есть строка bulletString, то тогда ее нужно разделить запятыми, если нет, то тогда вернуть пустой список
                                                          
-    
     bulletList.forEach(bullet => {
       const bulletElement = document.createElement('div'); //встроенный метод для создания нового элемента
-      bulletElement.textContent = bullet; // значение переменной bullet записывается в перем.bulletElement ? 
+      bulletElement.textContent = bullet; // значение переменной bullet записывается в перем.bulletElement
       
-      modalContent.appendChild(bullet); // вставляет элемент в конец 
+      modalContent.appendChild(bulletElement); // вставляет элемент в конец 
     });
+    
 
 
 
-    modal.style.display = 'block';
+
+   
   });
 });
 
@@ -87,7 +88,7 @@ modal.addEventListener('click', function (event) {   // закрытие вне 
 // Сохраняем заметку в объект
 function saveCurrentNote() {
   if (currentDateKey) {      // ключ вида "Июнь 2025-14" 
-    const bullets = modalContent.querySelectorAll('div');//нашли все буллеты " - " или дни (div) ? 
+    const bullets = modalContent.querySelectorAll('div');//нашли все divs
     const bulletList = []; //сделали пустой список 
     bullets.forEach(bullet => {
       bulletList.push(bullet.textContent);  // заполнили список //метод массива, который добавляет новый элемент в конец массива.
