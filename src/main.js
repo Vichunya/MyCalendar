@@ -1,29 +1,3 @@
-// import './style.css'
-// import javascriptLogo from './javascript.svg'
-// import viteLogo from '/vite.svg'
-
-
-// const modal = document.querySelector('.modal');
-// const dates = document.querySelectorAll('.dates div');
-// console.log(dates);
-
-// dates.forEach(date => {
-//   date.addEventListener('click', function (event) {
-//     modal.style.display = 'block';
-//   })
-// });
-
-// const closeButton = document.querySelector('.close'); // закрытие по кнопке 
-// closeButton.addEventListener('click', function(event){    // без event тоже работает
-//   modal.style.display = 'none';
-// });
-
-// modal.addEventListener('click', function(event) {  // работает без forEach // закрытие вне окна
-//  if(event.target === modal){
-//   modal.style.display = 'none';
-//  }
-// });
-
 
 import './style.css'
 import javascriptLogo from './javascript.svg'
@@ -33,7 +7,7 @@ const modal = document.querySelector('.modal');
 const dates = document.querySelectorAll('.dates div');
 const noteArea = document.getElementById('note-area');
 const closeButton = document.querySelector('.close');
-const modalContent = document.getElementById('modalContent');
+const modalContent = document.getElementById('notes');
 
 // Объект для хранения заметок по дате
 const notes = {};
@@ -76,13 +50,16 @@ dates.forEach(date => {
 closeButton.addEventListener('click', function () {  // закрытие по кнопке
   saveCurrentNote();  // вызывается ниже, ф-я сохранения заметки 
   modal.style.display = 'none';
+  cleanNote();
 });
 
 modal.addEventListener('click', function (event) {   // закрытие вне окна
   if (event.target === modal) {
     saveCurrentNote();
     modal.style.display = 'none';
+    cleanNote();
   }
+  
 });
 
 // Сохраняем заметку в объект
@@ -97,6 +74,11 @@ function saveCurrentNote() {
     console.log(`Заметка для ${currentDateKey}:`, notes[currentDateKey]);
   }
 }
+function cleanNote() {
+  modalContent.replaceChildren();
+
+}
+
 // КНОПКА ENTER для СПИСКА 
 noteArea.addEventListener('keydown', function(event) { // keydown срабатывает при нажатии любой клавиши
   if (event.key === 'Enter') {  // event.key - это встроенное свойство, возвращает название нажатой клавиши
@@ -117,12 +99,12 @@ function highlightDaysWithNotes() {
   const allDatesBlocks = document.querySelectorAll('.dates');
   
   allDatesBlocks.forEach(datesBlock => {  // 2 блока по 30 дней 
-    // Находим предыдущий элемент с классом month и берем из него месяц // ?? 
+
     const monthElement = datesBlock.previousElementSibling.previousElementSibling; // найдет каждый месяц 
     const month = monthElement ? monthElement.textContent.trim() : 'Неизвестно';
 
     // Проходимся по всем div с числами внутри блока dates // бежит по каждому из блоков (их 2)
-    datesBlock.querySelectorAll('div').forEach(dayDiv => {
+    datesBlock.querySelectorAll('div').forEach(dayDiv => {  // запись querySelector - уточнить ? 
       const day = dayDiv.textContent.trim();   //dayDiv - один день (один div)
       if (!day) return; // пропускаем пустые ячейки
 
