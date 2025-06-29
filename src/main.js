@@ -7,7 +7,7 @@ const modal = document.querySelector('.modal');
 const dates = document.querySelectorAll('.dates div');
 const noteArea = document.getElementById('note-area');
 const closeButton = document.querySelector('.close');
-const modalContent = document.getElementById('notes');
+const noteContent = document.getElementById('notes');
 
 // Объект для хранения заметок по дате
 const notes = {};
@@ -36,7 +36,7 @@ dates.forEach(date => {
       const bulletElement = document.createElement('div'); //встроенный метод для создания нового элемента
       bulletElement.textContent = bullet; // значение переменной bullet записывается в перем.bulletElement
       
-      modalContent.appendChild(bulletElement); // вставляет элемент в конец 
+      noteContent.appendChild(bulletElement); // вставляет элемент в конец 
     });
     
 
@@ -65,7 +65,7 @@ modal.addEventListener('click', function (event) {   // закрытие вне 
 // Сохраняем заметку в объект
 function saveCurrentNote() {
   if (currentDateKey) {      // ключ вида "Июнь 2025-14" 
-    const bullets = modalContent.querySelectorAll('div');//нашли все divs
+    const bullets = noteContent.querySelectorAll('div');//нашли все divs
     const bulletList = []; //сделали пустой список 
     bullets.forEach(bullet => {
       bulletList.push(bullet.textContent);  // заполнили список //метод массива, который добавляет новый элемент в конец массива.
@@ -75,7 +75,7 @@ function saveCurrentNote() {
   }
 }
 function cleanNote() {
-  modalContent.replaceChildren();
+  noteContent.replaceChildren();
 
 }
 
@@ -87,9 +87,9 @@ noteArea.addEventListener('keydown', function(event) { // keydown срабаты
     // Создаём новый элемент списка
     const bullet = document.createElement('div'); //встроенный метод для создания нового элемента
     bullet.textContent = '- ' + noteArea.value;//встраиваем в bullet значение noteArea предварительно поставив "-"
-    noteArea.value = '';// очищаем область 
+    noteArea.value = '';// очищаем инпут 
     
-    modalContent.appendChild(bullet);//вставляем значение нового bullet в конец 
+    noteContent.appendChild(bullet);//вставляем значение нового bullet в конец 
   }
 });
 
