@@ -2,6 +2,7 @@
 import './style.css'
 import javascriptLogo from './javascript.svg'
 import viteLogo from '/vite.svg'
+import {createBulletElement} from "./bulletElement.js"
 
 const modal = document.querySelector('.modal');
 const dates = document.querySelectorAll('.dates div');
@@ -14,7 +15,7 @@ const notes = {};
 
 let currentDateKey = ''; // текущий выбранный ключ даты
 
-dates.forEach(date => {
+dates.forEach(date => { // навешивает на все даты клик 
   date.addEventListener('click', function (event) {
     const day = event.target.textContent; // Извлекаем содержимое элемента, на который кликнули 
     console.log(`выбранный день:${day}`);
@@ -45,7 +46,7 @@ dates.forEach(date => {
 closeButton.addEventListener('click', function () {  // ЗАКРЫТИЕ по кнопке
   saveCurrentNote();  // вызывается ниже, ф-я сохранения заметки 
   modal.style.display = 'none';
-  cleanNote();
+  cleanNote(); // очищение содержимого заметки 
 });
 
 modal.addEventListener('click', function (event) {   // ЗАКРЫТИЕ вне окна
@@ -59,12 +60,12 @@ modal.addEventListener('click', function (event) {   // ЗАКРЫТИЕ вне 
 // Сохраняем заметку в объект
 function saveCurrentNote() {
   if (currentDateKey) {      // ключ вида "Июнь 2025-14" 
-    const bullets = noteContent.querySelectorAll('div');//нашли все divs
+    const bulletsDivs = noteContent.querySelectorAll('div');//нашли все divs внутри блока с заметками
     const bulletList = []; //сделали пустой список 
-    bullets.forEach(bullet => {
-      bulletList.push(bullet.textContent);  // заполнили список //метод массива, который добавляет новый элемент в конец массива.
-    }); // добавляет в массив bulletList текстовое содержимое элемента bullet  
-    localStorage.setItem(currentDateKey, bulletList); // ключ, cохранили в список //установка значения ? 
+    bulletsDivs.forEach(bulletDiv => {
+      bulletList.push(bulletDiv.textContent);  // заполнили список //метод массива, который добавляет новый элемент (?) в конец массива.
+    }); // добавляет в массив bulletList текстовое содержимое элемента bulletDiv  
+    localStorage.setItem(currentDateKey, bulletList); // cохраняются записи по каждой дате currentDateKey
     console.log(`Заметка для ${currentDateKey}:`, notes[currentDateKey]);
   }
 }
@@ -81,11 +82,12 @@ noteArea.addEventListener('keydown', function (event) { // keydown срабат�
     event.preventDefault(); // Отменяем стандартное поведение (перенос строки)
 
     // Создаём новый элемент списка
-    const bullet = document.createElement('div'); //встроенный метод для создания нового элемента
-    bullet.textContent = '- ' + noteArea.value;//встраиваем в bullet значение noteArea предварительно поставив "-"
+    const bulletDiv = createBulletElement(noteArea.value); // то, что вернулось (див с текстом, может быть и кнопка, и чекбокс)
+    
     noteArea.value = '';// очищаем инпут 
 
-    noteContent.appendChild(bullet);//вставляем значение нового bullet в конец 
+    noteContent.appendChild(bulletDiv);//вставляем значение нового bulletDiv в конец 
+
   }
 });
 
