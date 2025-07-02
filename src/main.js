@@ -34,11 +34,10 @@ dates.forEach(date => { // навешивает на все даты клик
     const bulletList = bulletString ? bulletString.split(",") : []; // если есть строка bulletString, то тогда ее нужно разделить запятыми, если нет, то тогда вернуть пустой список
 
     bulletList.forEach(bullet => {
-      const bulletElement = document.createElement('div'); //встроенный метод для создания нового элемента
-      bulletElement.textContent = bullet; // значение переменной bullet записывается в перем.bulletElement
-
-      noteContent.appendChild(bulletElement); // вставляет элемент в конец 
+      const bulletElement = createBulletElement(bullet);  // вызываем функцию с текстом bullet
+      noteContent.appendChild(bulletElement);            // вставляем элемент
     });
+    
 
   });
 });
