@@ -2,7 +2,7 @@
 import './style.css'
 import javascriptLogo from './javascript.svg'
 import viteLogo from '/vite.svg'
-import {createBulletElement} from "./bulletElement.js"
+import {createBulletElement, getBulletText} from "./bulletElement.js"
 
 const modal = document.querySelector('.modal');
 const dates = document.querySelectorAll('.dates div');
@@ -62,7 +62,11 @@ function saveCurrentNote() {
     const bulletsDivs = noteContent.querySelectorAll('div');//нашли все divs внутри блока с заметками
     const bulletList = []; //сделали пустой список 
     bulletsDivs.forEach(bulletDiv => {
-      bulletList.push(bulletDiv.textContent);  // заполнили список //метод массива, который добавляет новый элемент (?) в конец массива.
+      console.log('текущее содержимое' + bulletDiv.textContent);
+
+      const textFromSpan = getBulletText(bulletDiv);
+
+      bulletList.push(textFromSpan);  
     }); // добавляет в массив bulletList текстовое содержимое элемента bulletDiv  
     localStorage.setItem(currentDateKey, bulletList); // cохраняются записи по каждой дате currentDateKey
     console.log(`Заметка для ${currentDateKey}:`, notes[currentDateKey]);
