@@ -15,8 +15,8 @@ export function createBulletElement(bulletText) {
     const checkbox = document.createElement('input'); // Создаём чекбокс
     checkbox.type = 'checkbox'; // Указываем тип
 
-    const textSpan = document.createElement('span'); // чтобы текст списка был отдельно от чекбокса
-    textSpan.textContent = bulletText; // раньне на 4 строке ? Из-за этого дублируются ? 
+    const textSpan = document.createElement('span'); // чтобы текст списка был отдельно от чекбокса // QUESTION 
+    textSpan.textContent = bulletText; 
 
     // Добавляем чекбокс и текст в div
     bulletDiv.appendChild(checkbox);
@@ -27,8 +27,8 @@ export function createBulletElement(bulletText) {
 }
 
 export function getBulletText(bulletDiv) {
-    const span = bulletDiv.querySelector('span');
-    return span.textContent;
+    const span = bulletDiv.querySelector('span'); 
+    return span.textContent; 
 }
 
 

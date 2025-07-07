@@ -3,6 +3,7 @@ import './style.css'
 import javascriptLogo from './javascript.svg'
 import viteLogo from '/vite.svg'
 import {createBulletElement, getBulletText} from "./bulletElement.js"
+import {generateCalendar} from "./calendarView.js"
 
 const modal = document.querySelector('.modal');
 const dates = document.querySelectorAll('.dates div');
@@ -10,7 +11,7 @@ const noteArea = document.getElementById('note-area');
 const closeButton = document.querySelector('.close');
 const noteContent = document.getElementById('notes');
 
-// Объект для хранения заметок по дате
+// Объект для хранения заметок по дате 
 const notes = {};
 
 let currentDateKey = ''; // текущий выбранный ключ даты
@@ -131,3 +132,5 @@ saveCurrentNote = function () {
   originalSaveCurrentNote();
   highlightDaysWithNotes(); // ф-я выделения дня, где есть заметка 
 };
+
+generateCalendar();
