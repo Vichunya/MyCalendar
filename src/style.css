@@ -73,5 +73,20 @@
     border-radius: 50%;
     font-weight: bold;
     color: darkred;
-  }
-  
+}
+
+#calendar table {
+    font-size: 24px;
+    width: 100%;
+    max-width: 800px;
+    /* чтобы не расползалось сильно */
+    margin: 20px auto;
+    /* auto справа и слева */
+}
+
+#calendar th,
+#calendar td {
+    padding: 10px; /* расстояние между строками */
+    /* добавить отступы внутри ячеек */
+    text-align: center; /* даты по середине, под днями неделями */
+}
