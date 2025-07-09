@@ -5,8 +5,9 @@ import viteLogo from '/vite.svg'
 import {createBulletElement, getBulletText} from "./bulletElement.js"
 import {generateCalendar} from "./calendarView.js"
 
+generateCalendar();
 const modal = document.querySelector('.modal');
-const dates = document.querySelectorAll('.dates div');
+const dates = document.querySelectorAll('tr.dates td');
 const noteArea = document.getElementById('note-area');
 const closeButton = document.querySelector('.close');
 const noteContent = document.getElementById('notes');
@@ -16,6 +17,7 @@ const notes = {};
 
 let currentDateKey = ''; // текущий выбранный ключ даты
 
+console.log(dates);
 dates.forEach(date => { // навешивает на все даты клик 
   date.addEventListener('click', function (event) {
     const day = event.target.textContent; // Извлекаем содержимое элемента, на который кликнули 
@@ -133,4 +135,3 @@ saveCurrentNote = function () {
   highlightDaysWithNotes(); // ф-я выделения дня, где есть заметка 
 };
 
-generateCalendar();

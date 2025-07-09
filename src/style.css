@@ -9,20 +9,26 @@
     margin-bottom: 10px;
 }
 
-.days,
+/* .days,
 .dates {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 15px;
+} */
+
+.weekdays {
+    color: blue;
+    font-weight: bold;
+    margin-bottom: 10px;
 }
 
-.dates div:hover {
+.dates td:hover {
     background-color: lightgreen;
     cursor: pointer;
     border-radius: 10px;
 }
 
-.dates div:empty {
+.dates td:empty {
     visibility: hidden;
 }
 

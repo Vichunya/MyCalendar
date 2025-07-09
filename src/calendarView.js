@@ -16,24 +16,25 @@ export function generateCalendar() {
     const startDay = (firstDay.getDay() + 6) % 7; // понедельник — 0 // какой день недели выясняем (порядковый номер дня недели)
   console.log('startDay = ' + startDay); // посмотреть !!!! 
 
-    let html = `<h2>${monthNames[month]} ${year}</h2>`; //это строка ? 
-    html += `<table border="0"><tr>`; // good decision // border="0" - рамки у таблицы нет
+ //  <div class="month"><h1>Июнь 2025</h1></div>
+    let html = `<div class="month"> <h2>${monthNames[month]} ${year}</h2></div>`; //это заголовок
+    html += `<table border="0"><tr class = "weekdays">`; // good decision // border="0" - рамки у таблицы нет
     for (let dayName of dayNames) {   // 7 titles (7 days)
       html += `<th>${dayName}</th>`;
     }
-    html += `</tr><tr>`; // close and open next
+    html += `</tr><tr class="dates">`; // close and open next
   
     // Пустые ячейки до первого дня 
     for (let i = 0; i < startDay; i++) {
       html += `<td></td>`;
     }
   
-    // Дни месяца  // currentDay - в какой день недели попадает текущая дата (date) т.е. номер дня недели ? 
+    // Дни месяца  // currentDay - в какой день недели попадает текущая дата (date) т.е. номер дня недели
     for (let date = 1; date <= lastDay.getDate(); date++) { //lastDay.getDate() - последнее число месяца (31 например)
       const currentDay = (startDay + date - 1) % 7; //startDay - номер дня недели, на который приходится 1-е число месяца
       html += `<td>${date}</td>`;
-      if (currentDay === 6 && date !== lastDay.getDate()) {
-        html += `</tr><tr>`; // новая строка после воскресенья
+      if (currentDay === 6 && date !== lastDay.getDate()) { // день недели = 6 (суббота) и это не последний день месяца, то close тек.строку и open след.
+        html += `</tr><tr class="dates">`; // новая строка после воскресенья
       }
     }
   
