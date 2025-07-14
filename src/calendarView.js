@@ -22,7 +22,9 @@ export function generateCalendar() {
     for (let dayName of dayNames) {   // 7 titles (7 days)
       html += `<th>${dayName}</th>`;
     }
-    html += `</tr><tr class="dates">`; // close and open next
+    //html += `</tr><tr class="dates">`; // close and open next
+    html += `</tr><tr class="dates" data-month="${monthNames[month]}" data-year="${year}">`;
+
   
     // Пустые ячейки до первого дня 
     for (let i = 0; i < startDay; i++) {

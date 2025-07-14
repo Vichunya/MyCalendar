@@ -2,8 +2,8 @@
 import './style.css'
 import javascriptLogo from './javascript.svg'
 import viteLogo from '/vite.svg'
-import {createBulletElement, getBulletText} from "./bulletElement.js"
-import {generateCalendar} from "./calendarView.js"
+import { createBulletElement, getBulletText } from "./bulletElement.js"
+import { generateCalendar } from "./calendarView.js"
 
 generateCalendar();
 const modal = document.querySelector('.modal');
@@ -24,10 +24,16 @@ dates.forEach(date => { // навешивает на все даты клик
     console.log(`выбранный день:${day}`);
     if (!day) return; // пропускаем пустые ячейки  
 
-    // Определяем МЕСЯЦ 
-    const monthElement = event.target.closest('.dates').previousElementSibling.previousElementSibling;//cмотри в структуре div
-    console.log(event.target.closest('.dates').previousElementSibling.previousElementSibling);
-    const month = monthElement ? monthElement.textContent.trim() : 'Неизвестно';
+    //Определяем МЕСЯЦ 
+    // const monthElement = event.target.closest('.dates').previousElementSibling.previousElementSibling;//cмотри в структуре div
+    //сonsole.log(event.target.closest('.dates').previousElementSibling.previousElementSibling);
+    //const month = monthElement ? monthElement.textContent.trim() : 'Неизвестно';
+    const datesRow = event.target.closest('tr.dates');
+const month = datesRow.dataset.month;
+const year = datesRow.dataset.year;
+currentDateKey = `${month} ${year}-${day}`;
+    
+
 
     // Создаём ключ вида "Июнь 2025-14"  
     currentDateKey = `${month}-${day}`;
@@ -40,7 +46,7 @@ dates.forEach(date => { // навешивает на все даты клик
       const bulletElement = createBulletElement(bullet);  // вызываем функцию с текстом bullet
       noteContent.appendChild(bulletElement);            // вставляем элемент
     });
-    
+
 
   });
 });
@@ -69,14 +75,14 @@ function saveCurrentNote() {
 
       const textFromSpan = getBulletText(bulletDiv);
 
-      bulletList.push(textFromSpan);  
+      bulletList.push(textFromSpan);
     }); // добавляет в массив bulletList текстовое содержимое элемента bulletDiv  
     localStorage.setItem(currentDateKey, bulletList); // cохраняются записи по каждой дате currentDateKey
     console.log(`Заметка для ${currentDateKey}:`, notes[currentDateKey]);
   }
 }
 
- // Очищение содержимого заметок 
+// Очищение содержимого заметок 
 function cleanNote() {
   noteContent.replaceChildren();
 
@@ -89,7 +95,7 @@ noteArea.addEventListener('keydown', function (event) { // keydown срабат�
 
     // Создаём новый элемент списка
     const bulletDiv = createBulletElement(noteArea.value); // то, что вернулось (див с текстом, может быть и кнопка, и чекбокс)
-    
+
     noteArea.value = '';// очищаем инпут 
 
     noteContent.appendChild(bulletDiv);//вставляем значение нового bulletDiv в конец 
