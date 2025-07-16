@@ -29,14 +29,14 @@ dates.forEach(date => { // навешивает на все даты клик
     //сonsole.log(event.target.closest('.dates').previousElementSibling.previousElementSibling);
     //const month = monthElement ? monthElement.textContent.trim() : 'Неизвестно';
     const datesRow = event.target.closest('tr.dates');
-const month = datesRow.dataset.month;
-const year = datesRow.dataset.year;
-currentDateKey = `${month} ${year}-${day}`;
-    
+    const month = datesRow.dataset.month;
+    const year = datesRow.dataset.year;
+    currentDateKey = `${month} ${year}-${day}`;
+
 
 
     // Создаём ключ вида "Июнь 2025-14"  
-    currentDateKey = `${month}-${day}`;
+   
     modal.style.display = 'block';
     // Загружаем заметку, если есть
     const bulletString = localStorage.getItem(currentDateKey); // по ключу вида "Июнь 2025-14", получает данные
@@ -69,6 +69,8 @@ modal.addEventListener('click', function (event) {   // ЗАКРЫТИЕ вне 
 function saveCurrentNote() {
   if (currentDateKey) {      // ключ вида "Июнь 2025-14" 
     const bulletsDivs = noteContent.querySelectorAll('div');//нашли все divs внутри блока с заметками
+    console.log(`Текст для ${bulletsDivs}`); 
+
     const bulletList = []; //сделали пустой список 
     bulletsDivs.forEach(bulletDiv => {
       console.log('текущее содержимое' + bulletDiv.textContent);
@@ -107,18 +109,22 @@ noteArea.addEventListener('keydown', function (event) { // keydown срабат�
 function highlightDaysWithNotes() {
   // Получаем все блоки с датами
   const allDatesBlocks = document.querySelectorAll('.dates');
+  
 
   allDatesBlocks.forEach(datesBlock => {  // 2 блока по 30 дней 
 
-    const monthElement = datesBlock.previousElementSibling.previousElementSibling; // найдет каждый месяц 
-    const month = monthElement ? monthElement.textContent.trim() : 'Неизвестно';
+    const month = datesBlock.dataset.month;
+    const year = datesBlock.dataset.year;
+    console.log(`БЛОК С ДНЯМИ ${datesBlock}`);
+
 
     // Проходимся по всем div с числами внутри блока dates // бежит по каждому из блоков (их 2)
-    datesBlock.querySelectorAll('div').forEach(dayDiv => {  // запись querySelector - уточнить ? 
+    datesBlock.querySelectorAll('td').forEach(dayDiv => {  // запись querySelector - уточнить ? 
+      console.log(`ДЕНЬ ${dayDiv}`);
       const day = dayDiv.textContent.trim();   //dayDiv - один день (один div)
       if (!day) return; // пропускаем пустые ячейки
 
-      const key = `${month}-${day}`;
+      const key = `${month} ${year}-${day}`;
       const note = localStorage.getItem(key);
       if (note && note.length !== 0) {  // если есть заметка и она непустая 
         dayDiv.classList.add('has-note'); // добавляем класс
