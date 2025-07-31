@@ -15,7 +15,7 @@ export function createBulletElement(bulletText) {
     const checkbox = document.createElement('input'); // Создаём чекбокс
     checkbox.type = 'checkbox'; // Указываем тип
 
-    const textSpan = document.createElement('span'); // чтобы текст списка был отдельно от чекбокса // QUESTION 
+    const textSpan = document.createElement('span'); // чтобы текст списка был отдельно от чекбокса // QUESTION bulletText
     textSpan.textContent = bulletText; 
 
     // Добавляем чекбокс и текст в div
@@ -23,12 +23,12 @@ export function createBulletElement(bulletText) {
     bulletDiv.appendChild(textSpan);
     bulletDiv.appendChild(button); // Добавляе кнопку в div
 
-    return bulletDiv;
+    return bulletDiv; // а если не без return ? 
 }
 
-export function getBulletText(bulletDiv) {
-    const span = bulletDiv.querySelector('span'); 
-    return span.textContent; 
+export function getBulletText(bulletDiv) { // для получения текста заметки //bulletDiv - одна заметка — это один блок с текстом, чекбоксом и кнопкой удаления
+    const span = bulletDiv.querySelector('span'); // Находит внутри bulletDiv первый тег <span>
+    return span.textContent; // Возвращает текстовое содержимое этого <span>
 }
 
 

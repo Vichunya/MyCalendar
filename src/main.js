@@ -65,25 +65,22 @@ modal.addEventListener('click', function (event) {   // ЗАКРЫТИЕ вне 
 function saveCurrentNote() {
   if (currentDateKey) {      // ключ вида "Июнь 2025-14" 
     const bulletsDivs = noteContent.querySelectorAll('div');//нашли все divs внутри блока с заметками
-    console.log(`Текст для ${bulletsDivs}`);
+    // console.log(`Текст для ${bulletsDivs}`);
 
     const bulletList = []; //сделали пустой список 
     bulletsDivs.forEach(bulletDiv => {
-      console.log('текущее содержимое' + bulletDiv.textContent);
-
+      //  console.log('текущее содержимое' + bulletDiv.textContent);
       const textFromSpan = getBulletText(bulletDiv);
-
-      bulletList.push(textFromSpan);
-    }); // добавляет в массив bulletList текстовое содержимое элемента bulletDiv  
+      bulletList.push(textFromSpan); // добавляет в массив bulletList текстовое содержимое элемента bulletDiv  
+    });
     localStorage.setItem(currentDateKey, bulletList); // cохраняются записи по каждой дате currentDateKey
-    console.log(`Заметка для ${currentDateKey}:`, notes[currentDateKey]);
+    // console.log(`Заметка для ${currentDateKey}:`, notes[currentDateKey]);
   }
 }
 
 // Очищение содержимого заметок 
 function cleanNote() {
-  noteContent.replaceChildren();
-
+  noteContent.replaceChildren();// очищает содержимое noteContent (все заметки удаляются, блок становится пустым)
 }
 
 // КНОПКА ENTER для СПИСКА 

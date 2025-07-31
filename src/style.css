@@ -23,6 +23,8 @@
 }
 
 .dates td:hover {
+    /* Выбрать все <td> (ячейки таблицы), которые находятся внутри элемента с классом .dates */
+    /* Когда на эти <td> наведен курсор мыши */
     background-color: lightgreen;
     cursor: pointer;
     border-radius: 10px;
@@ -86,7 +88,9 @@
 
 #calendar th,
 #calendar td {
-    padding: 10px; /* расстояние между строками */
+    padding: 10px;
+    /* расстояние между строками */
     /* добавить отступы внутри ячеек */
-    text-align: center; /* даты по середине, под днями неделями */
+    text-align: center;
+    /* даты по середине, под днями неделями */
 }
