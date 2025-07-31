@@ -1,59 +1,97 @@
 
-import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { createBulletElement, getBulletText } from "./bulletElement.js"
-import { generateCalendar } from "./calendarView.js"
+import { generateCalendar, monthNames } from './calendarView.js';
+import { createBulletElement, getBulletText } from './bulletElement.js';
 
-generateCalendar();
+// Ссылка на модальное окно и элементы заметок
 const modal = document.querySelector('.modal');
-const dates = document.querySelectorAll('tr.dates td');
 const noteArea = document.getElementById('note-area');
 const closeButton = document.querySelector('.close');
-const noteContent = document.getElementById('notes');
+const noteContent = document.getElementById('notes');//это контейнер (<div id="notes">) внутри модального окна, где хранятся все заметки
 
-// Объект для хранения заметок по дате 
-const notes = {};
+let currentDateKey = ''; // Текущая выбранная дата
+let currentYear, currentMonth; // Текущий отображаемый год и месяц
 
-let currentDateKey = ''; // текущий выбранный ключ даты
+// Объект для хранения заметок в localStorage — не нужен, т.к. используем localStorage напрямую ? 
 
-console.log(dates);
-dates.forEach(date => { // навешивает на все даты клик 
-  date.addEventListener('click', function (event) {
-    const day = event.target.textContent; // Извлекаем содержимое элемента, на который кликнули 
-    console.log(`выбранный день:${day}`);
-    if (!day) return; // пропускаем пустые ячейки  
+// клики на даты для открытия модальных окон
+function dateClickHandlers() {
 
-    //Определяем МЕСЯЦ 
+  const dates = document.querySelectorAll('tr.dates td');// все ячейки <td> внутри <tr class="dates">
+  dates.forEach(date => {  // dates это даты 
+    date.addEventListener('click', function (event) {
+      const day = event.target.textContent; // это просто текст, который находится внутри ячейки <td>, по которой кликнули
+      if (!day) return; // пустые ячейки 
 
-    const datesRow = event.target.closest('tr.dates');//Находит ближайший родит.элемент (<tr class="dates">) от того, по которому произошёл клик (event.target)
-    const month = datesRow.dataset.month;// к какому месяцу принадлежит дата
-    const year = datesRow.dataset.year;
-    currentDateKey = `${month} ${year}-${day}`;
+      const datesRow = event.target.closest('tr.dates');//Находим ближайший родительский <tr> с классом dates — это строка таблицы, для опр-я месяца и года 
+      const month = datesRow.dataset.month;
+      const year = datesRow.dataset.year;
+      currentDateKey = `${month} ${year}-${day}`;// Формируем уникальный ключ для хранения заметок в localStorage
 
-    // Создаём ключ вида "Июнь 2025-14"  
+      modal.style.display = 'block';
 
-    modal.style.display = 'block';
-    // Загружаем заметку, если есть
-    const bulletString = localStorage.getItem(currentDateKey); // по ключу вида "Июнь 2025-14", получает данные
-    const bulletList = bulletString ? bulletString.split(",") : []; // если есть строка bulletString, то тогда ее нужно разделить запятыми, если нет, то тогда вернуть пустой список
+      cleanNote(); // Очищаем старые заметки
 
-    bulletList.forEach(bullet => {
-      const bulletElement = createBulletElement(bullet);  // вызываем функцию с текстом bullet
-      noteContent.appendChild(bulletElement);            // вставляем элемент
+      const bulletString = localStorage.getItem(currentDateKey);//Загружаем сохранённую строку заметок из localStorage по ключу для этой даты
+      const bulletList = bulletString ? bulletString.split(",") : [];//Если что-то сохранено — превращаем строку в массив по запятым. Если нет — используем пустой массив 
+
+      bulletList.forEach(bullet => { // Перебираем каждую строку из массива bulletList, В переменной bullet на каждой итерации будет один текст заметки
+        const bulletElement = createBulletElement(bullet); //на основе текста заметки создать готовый DOM-элемент с чекбоксом, текстом и кнопкой закрытия
+        noteContent.appendChild(bulletElement);// вставляет новый элемент в конец контейнера
+      });
     });
-
-
   });
-});
+}
 
-closeButton.addEventListener('click', function () {  // ЗАКРЫТИЕ по кнопке
-  saveCurrentNote();  // вызывается ниже, ф-я сохранения заметки 
+// Подсвечиваем дни с заметками
+function highlightDaysWithNotes() {
+  const allDatesBlocks = document.querySelectorAll('.dates'); //allDatesBlocks список всех блоков с неделями (каждая неделя — один <tr class="dates">)
+  allDatesBlocks.forEach(datesBlock => { // datesBlock — одна неделя (строка) с 7 днями
+    const month = datesBlock.dataset.month;
+    const year = datesBlock.dataset.year;
+
+    datesBlock.querySelectorAll('td').forEach(dayDiv => {  // dayDiv - один день. 
+      const day = dayDiv.textContent.trim(); //убирает пробелы 
+      if (!day) return;
+
+      const key = `${month} ${year}-${day}`; // по каждому дню формируется ключ для заметок (key)
+      const note = localStorage.getItem(key);// проверяется, есть ли заметка в localStorage
+      if (note && note.length !== 0) {
+        dayDiv.classList.add('has-note'); // если есть — добавляется класс has-note для подсветки 
+      } else {
+        dayDiv.classList.remove('has-note');
+      }
+    });
+  });
+}
+
+// Очищаем заметки из модального окна
+function cleanNote() {           //replaceChildren()-удаляет все дочерние элементы внутри noteContent. То есть он очищает всё содержимое блока заметок
+  noteContent.replaceChildren();//noteContent — это контейнер со всеми заметками, 
+  noteArea.value = ''; //очищает текстовое поле ввода заметки, чтобы оно было пустым при открытии следующей даты
+}
+
+// Сохраняем заметки в localStorage
+function saveCurrentNote() {
+  if (currentDateKey) {
+    const bulletsDivs = noteContent.querySelectorAll('div'); // bulletsDivs — это контейнеры для 1 дня
+    const bulletList = [];
+    bulletsDivs.forEach(bulletDiv => { // bulletDiv - контейнер для одной заметки 
+      const textFromSpan = getBulletText(bulletDiv);
+      bulletList.push(textFromSpan); // bulletList — это текст всех заметок только одного выбранного дня
+    });
+    localStorage.setItem(currentDateKey, bulletList);
+  }
+}
+
+// Навешиваем обработчик на кнопку закрытия модального окна
+closeButton.addEventListener('click', () => {
+  saveCurrentNote();
   modal.style.display = 'none';
-  cleanNote(); // очищение содержимого заметки 
+  cleanNote();
 });
 
-modal.addEventListener('click', function (event) {   // ЗАКРЫТИЕ вне окна
+// Закрытие модального окна при клике вне содержимого
+modal.addEventListener('click', (event) => {
   if (event.target === modal) {
     saveCurrentNote();
     modal.style.display = 'none';
@@ -61,79 +99,48 @@ modal.addEventListener('click', function (event) {   // ЗАКРЫТИЕ вне 
   }
 });
 
-// Сохраняем заметку в объект
-function saveCurrentNote() {
-  if (currentDateKey) {      // ключ вида "Июнь 2025-14" 
-    const bulletsDivs = noteContent.querySelectorAll('div');//нашли все divs внутри блока с заметками
-    // console.log(`Текст для ${bulletsDivs}`);
-
-    const bulletList = []; //сделали пустой список 
-    bulletsDivs.forEach(bulletDiv => {
-      //  console.log('текущее содержимое' + bulletDiv.textContent);
-      const textFromSpan = getBulletText(bulletDiv);
-      bulletList.push(textFromSpan); // добавляет в массив bulletList текстовое содержимое элемента bulletDiv  
-    });
-    localStorage.setItem(currentDateKey, bulletList); // cохраняются записи по каждой дате currentDateKey
-    // console.log(`Заметка для ${currentDateKey}:`, notes[currentDateKey]);
-  }
-}
-
-// Очищение содержимого заметок 
-function cleanNote() {
-  noteContent.replaceChildren();// очищает содержимое noteContent (все заметки удаляются, блок становится пустым)
-}
-
-// КНОПКА ENTER для СПИСКА 
-noteArea.addEventListener('keydown', function (event) { // keydown срабатывает при нажатии любой клавиши
-  if (event.key === 'Enter') {  // event.key - это встроенное свойство, возвращает название нажатой клавиши
-    event.preventDefault(); // Отменяем стандартное поведение (перенос строки)
-
-    // Создаём новый элемент списка
-    const bulletDiv = createBulletElement(noteArea.value); // то, что вернулось (див с текстом, может быть и кнопка, и чекбокс)
-
-    noteArea.value = '';// очищаем инпут 
-
-    noteContent.appendChild(bulletDiv);//вставляем значение нового bulletDiv в конец 
-
+// Кнопка Enter для добавления новой заметки
+noteArea.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    const bulletDiv = createBulletElement(noteArea.value);
+    noteArea.value = '';
+    noteContent.appendChild(bulletDiv);
   }
 });
 
-// ВЫДЕЛЕНИЕ ДНЯ, ГДЕ ЕСТЬ ЗАМЕТКА
-function highlightDaysWithNotes() {
-  // Получаем все блоки с датами
-  const allDatesBlocks = document.querySelectorAll('.dates');
-  allDatesBlocks.forEach(datesBlock => {  // 2 блока по 30 дней (?)
+// Функция для обновления календаря и навешивания всех обработчиков
+function updateCalendar(year, month) {
+  // Генерируем календарь и получаем текущие год и месяц
+  const res = generateCalendar(year, month);
+  currentYear = res.year;
+  currentMonth = res.month;
 
-    const month = datesBlock.dataset.month;
-    const year = datesBlock.dataset.year;
-    console.log(`БЛОК С ДНЯМИ ${datesBlock}`);
+  dateClickHandlers();
+  highlightDaysWithNotes();
 
-    // Проходимся по всем div с числами внутри блока dates // бежит по каждому из блоков (их 2) (?? )
-    datesBlock.querySelectorAll('td').forEach(dayDiv => {  // запись querySelector - уточнить ? 
-      console.log(`ДЕНЬ ${dayDiv}`);
-      const day = dayDiv.textContent.trim();   //dayDiv - один день (один div) // trim убирает пробелы 
-      if (!day) return; // пропускаем пустые ячейки
+  // Навешиваем обработчики на кнопки переключения месяцев
+  document.getElementById("prev-month").addEventListener("click", () => {
+    let newMonth = currentMonth - 1;
+    let newYear = currentYear;
+    if (newMonth < 0) {  // Если новый месяц стал меньше 0 (т.е. меньше января)
+      newMonth = 11; // Тогда меняем месяц на 11 — это декабрь (в JavaScript месяцы считаются от 0 до 11)
+      newYear--;  // И уменьшаем год на 1 — переходим в декабрь предыдущего года
+    }
+    updateCalendar(newYear, newMonth);
+  });
 
-      const key = `${month} ${year}-${day}`;
-      const note = localStorage.getItem(key);//Получает из localStorage заметку для этой даты (если есть)
-      if (note && note.length !== 0) {  // если есть заметка и она непустая 
-        dayDiv.classList.add('has-note'); // добавляем класс для выделения дня
-      } else {
-        dayDiv.classList.remove('has-note'); // на всякий случай убираем класс если заметки нет
-      }
-    });
+  document.getElementById("next-month").addEventListener("click", () => {
+    let newMonth = currentMonth + 1;
+    let newYear = currentYear;
+    if (newMonth > 11) {
+      newMonth = 0;
+      newYear++;
+    }
+    updateCalendar(newYear, newMonth);
   });
 }
 
-// Вызываем функцию сразу после загрузки
-highlightDaysWithNotes();
-
-// А также можно вызывать её после сохранения заметки
-// Для этого можно обернуть saveCurrentNote так:
-
-const originalSaveCurrentNote = saveCurrentNote;
-saveCurrentNote = function () {
-  originalSaveCurrentNote();
-  highlightDaysWithNotes(); // ф-я выделения дня, где есть заметка 
-};
+// Запускаем начальную загрузку календаря
+updateCalendar();
 
