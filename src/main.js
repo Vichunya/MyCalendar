@@ -31,12 +31,22 @@ function dateClickHandlers() {
 
       cleanNote(); // Очищаем старые заметки
 
-      const bulletString = localStorage.getItem(currentDateKey);//Загружаем сохранённую строку заметок из localStorage по ключу для этой даты
-      const bulletList = bulletString ? bulletString.split(",") : [];//Если что-то сохранено — превращаем строку в массив по запятым. Если нет — используем пустой массив 
+      // Загружаем сохранённые заметки (JSON)
+      const savedData = localStorage.getItem(currentDateKey);
+      const bulletList = savedData ? JSON.parse(savedData) : [];//Если в savedData что-то есть — преврати это из строки JSON в массив объектов
 
-      bulletList.forEach(bullet => { // Перебираем каждую строку из массива bulletList, В переменной bullet на каждой итерации будет один текст заметки
-        const bulletElement = createBulletElement(bullet); //на основе текста заметки создать готовый DOM-элемент с чекбоксом, текстом и кнопкой закрытия
-        noteContent.appendChild(bulletElement);// вставляет новый элемент в конец контейнера
+      // Восстанавливаем каждую заметку
+      bulletList.forEach(bullet => {
+        const bulletElement = createBulletElement(bullet.text); // только текст
+        const checkbox = bulletElement.querySelector('input[type="checkbox"]');
+        checkbox.checked = bullet.checked;//bullet.checked для сохранения галочки после закрытия //устанавливает это состояние в интерфейсе при загрузке
+
+        if (bullet.checked) {
+          const textSpan = bulletElement.querySelector('span');
+          textSpan.classList.add('done');
+        }
+
+        noteContent.appendChild(bulletElement);
       });
     });
   });
@@ -77,9 +87,16 @@ function saveCurrentNote() {
     const bulletList = [];
     bulletsDivs.forEach(bulletDiv => { // bulletDiv - контейнер для одной заметки 
       const textFromSpan = getBulletText(bulletDiv);
-      bulletList.push(textFromSpan); // bulletList — это текст всех заметок только одного выбранного дня
+      const checkbox = bulletDiv.querySelector('input[type="checkbox"]');//для сох-я зачерк 
+
+      bulletList.push(
+        {
+          text: textFromSpan,
+          checked: checkbox.checked // сохраняем состояние
+        }
+      ); // bulletList — это текст всех заметок только одного выбранного дня
     });
-    localStorage.setItem(currentDateKey, bulletList);
+    localStorage.setItem(currentDateKey, JSON.stringify(bulletList)); //массив в строку
   }
 }
 
