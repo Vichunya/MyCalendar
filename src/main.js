@@ -124,7 +124,7 @@ function updateCalendar(year, month) {
     let newMonth = currentMonth - 1;
     let newYear = currentYear;
     if (newMonth < 0) {  // Если новый месяц стал меньше 0 (т.е. меньше января)
-      newMonth = 11; // Тогда меняем месяц на 11 — это декабрь (в JavaScript месяцы считаются от 0 до 11)
+      newMonth = 11; //  Тогда меняем месяц на 11 — это декабрь (в JavaScript месяцы считаются от 0 до 11)
       newYear--;  // И уменьшаем год на 1 — переходим в декабрь предыдущего года
     }
     updateCalendar(newYear, newMonth);

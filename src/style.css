@@ -94,3 +94,9 @@
     text-align: center;
     /* даты по середине, под днями неделями */
 }
+
+.done {
+    text-decoration: line-through;
+    color: gray;
+  }
+  

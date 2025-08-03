@@ -16,7 +16,16 @@ export function createBulletElement(bulletText) {
     checkbox.type = 'checkbox'; // Указываем тип
 
     const textSpan = document.createElement('span'); // чтобы текст списка был отдельно от чекбокса // QUESTION bulletText
-    textSpan.textContent = bulletText; 
+    textSpan.textContent = bulletText;
+
+    // Хендлер для зачеркивания текста
+    checkbox.addEventListener('change', () => { // change - показывает на изменение состояния  
+        if (checkbox.checked) {  //.checked это встроенное свойство для <input type="checkbox"> 
+            textSpan.classList.add('done'); // добавляем класс зачеркивания 
+        } else {
+            textSpan.classList.remove('done'); // убираем класс зачеркивания 
+        }
+    });
 
     // Добавляем чекбокс и текст в div
     bulletDiv.appendChild(checkbox);
@@ -26,7 +35,7 @@ export function createBulletElement(bulletText) {
     return bulletDiv; // а если не без return ? 
 }
 
-export function getBulletText(bulletDiv) { // для получения текста заметки //bulletDiv - одна заметка — это один блок с текстом, чекбоксом и кнопкой удаления
+export function getBulletText(bulletDiv) { // для получения текста заметки //bulletDiv - одна заметка — это один блок с текстом, чекбоксом и кнопкой
     const span = bulletDiv.querySelector('span'); // Находит внутри bulletDiv первый тег <span>
     return span.textContent; // Возвращает текстовое содержимое этого <span>
 }
