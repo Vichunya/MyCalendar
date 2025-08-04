@@ -10,6 +10,7 @@ const noteContent = document.getElementById('notes');//это контейнер
 
 let currentDateKey = ''; // Текущая выбранная дата
 let currentYear, currentMonth; // Текущий отображаемый год и месяц
+let currentDayDiv = null;
 
 // Объект для хранения заметок в localStorage — не нужен, т.к. используем localStorage напрямую ? 
 
@@ -26,6 +27,8 @@ function dateClickHandlers() {
       const month = datesRow.dataset.month;
       const year = datesRow.dataset.year;
       currentDateKey = `${month} ${year}-${day}`;// Формируем уникальный ключ для хранения заметок в localStorage
+
+      currentDayDiv = event.target;
 
       modal.style.display = 'block';
 
@@ -96,25 +99,42 @@ function saveCurrentNote() {
         }
       ); // bulletList — это текст всех заметок только одного выбранного дня
     });
-    localStorage.setItem(currentDateKey, JSON.stringify(bulletList)); //массив в строку
+     
+    if(bulletList.length === 0) {
+      localStorage.removeItem(currentDateKey);
+    } else {
+      localStorage.setItem(currentDateKey, JSON.stringify(bulletList)); //массив в строку
+    }
+  }
+}
+
+function rerenderCalendarDay() {
+  const note = localStorage.getItem(currentDateKey);// проверяется, есть ли заметка в localStorage
+  if (note && note.length !== 0) {
+    currentDayDiv.classList.add('has-note'); // если есть — добавляется класс has-note для подсветки 
+  } else {
+    currentDayDiv.classList.remove('has-note');
   }
 }
 
 // Навешиваем обработчик на кнопку закрытия модального окна
 closeButton.addEventListener('click', () => {
-  saveCurrentNote();
-  modal.style.display = 'none';
-  cleanNote();
+  saveCleanNotes();
 });
 
 // Закрытие модального окна при клике вне содержимого
 modal.addEventListener('click', (event) => {
   if (event.target === modal) {
-    saveCurrentNote();
-    modal.style.display = 'none';
-    cleanNote();
+    saveCleanNotes();
   }
 });
+
+function saveCleanNotes() {
+  saveCurrentNote();
+  modal.style.display = 'none';
+  cleanNote();
+  rerenderCalendarDay();
+}
 
 // Кнопка Enter для добавления новой заметки
 noteArea.addEventListener('keydown', (event) => {
