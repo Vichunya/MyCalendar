@@ -108,8 +108,8 @@ function saveCurrentNote() {
         }
       ); // bulletList — это текст всех заметок только одного выбранного дня
     });
-     
-    if(bulletList.length === 0) {
+
+    if (bulletList.length === 0) {
       localStorage.removeItem(currentDateKey);//удаляется запись за текущую дату 
     } else {
       localStorage.setItem(currentDateKey, JSON.stringify(bulletList)); //массив в строку

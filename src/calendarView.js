@@ -25,9 +25,9 @@ export function generateCalendar(year, month) {
     // Создаем заголовок с месяцем и годом, добавляем стрелки для переключения
     let html = `
     <div class="month">
-      <button id="prev-month" aria-label="Предыдущий месяц">⬅</button> 
+      <button id="prev-month" aria-label="Предыдущий месяц">◄</button> 
       <h2>${monthNames[month]} ${year}</h2>
-      <button id="next-month" aria-label="Следующий месяц">➡</button>
+      <button id="next-month" aria-label="Следующий месяц">►</button>
     </div>
     `;
 

@@ -1,7 +1,36 @@
 .month {
+    display: flex;
+    align-items: center;
+    /* Выравнивание стрелок и текста по вертикали */
+    justify-content: center;
+    /* Центрируем по горизонтали */
+    gap: 15px;
+    /* Расстояние между стрелками и названием месяца */
     color: orchid;
-    text-align: center;
+    margin-bottom: 10px;
 }
+
+.month button { /* Стрелки месяца */
+    font-size: 22px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    user-select: none; /* Чтобы стрелки нельзя было выделить */
+}
+
+.month button:hover {
+    background-color: #eee;
+    /* Серый фон при наведении */
+    border-radius: 5px;
+}
+
+.month h2 { /* Применить эти стили ко всем тегам <h2>, которые находятся внутри элемента с классом .month */
+    margin: 0;
+    font-weight: 600;
+    font-size: 24px;
+}
+
 
 .days {
     color: blue;
@@ -98,5 +127,4 @@
 .done {
     text-decoration: line-through;
     color: gray;
-  }
-  
+}
