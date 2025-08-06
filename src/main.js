@@ -12,8 +12,6 @@ let currentDateKey = ''; // Текущая выбранная дата
 let currentYear, currentMonth; // Текущий отображаемый год и месяц
 let currentDayDiv = null;
 
-// Объект для хранения заметок в localStorage — не нужен, т.к. используем localStorage напрямую ? 
-
 // клики на даты для открытия модальных окон
 function dateClickHandlers() {
 
@@ -68,13 +66,24 @@ function highlightDaysWithNotes() {
 
       const key = `${month} ${year}-${day}`; // по каждому дню формируется ключ для заметок (key)
       const note = localStorage.getItem(key);// проверяется, есть ли заметка в localStorage
-      if (note && note.length !== 0) {
-        dayDiv.classList.add('has-note'); // если есть — добавляется класс has-note для подсветки 
-      } else {
-        dayDiv.classList.remove('has-note');
-      }
+
+      togglerHighlight(dayDiv, note);
+
     });
   });
+}
+
+function rerenderCalendarDay() { // для устранения ошибки: день подчеркивался после перещелкивания месяца 
+  const note = localStorage.getItem(currentDateKey);// проверяется, есть ли заметка в localStorage
+  togglerHighlight(currentDayDiv, note);
+}
+
+function togglerHighlight(dayElement, note) {
+  if (note && note.length !== 0) {
+    dayElement.classList.add('has-note'); // если есть — добавляется класс has-note для подсветки 
+  } else {
+    dayElement.classList.remove('has-note');
+  }
 }
 
 // Очищаем заметки из модального окна
@@ -101,21 +110,14 @@ function saveCurrentNote() {
     });
      
     if(bulletList.length === 0) {
-      localStorage.removeItem(currentDateKey);
+      localStorage.removeItem(currentDateKey);//удаляется запись за текущую дату 
     } else {
       localStorage.setItem(currentDateKey, JSON.stringify(bulletList)); //массив в строку
-    }
+    } // Это делается, чтобы не хранить пустые записи.
   }
 }
 
-function rerenderCalendarDay() {
-  const note = localStorage.getItem(currentDateKey);// проверяется, есть ли заметка в localStorage
-  if (note && note.length !== 0) {
-    currentDayDiv.classList.add('has-note'); // если есть — добавляется класс has-note для подсветки 
-  } else {
-    currentDayDiv.classList.remove('has-note');
-  }
-}
+
 
 // Навешиваем обработчик на кнопку закрытия модального окна
 closeButton.addEventListener('click', () => {
