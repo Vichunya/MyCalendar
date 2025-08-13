@@ -159,7 +159,9 @@ function updateCalendar(year, month) {
   highlightDaysWithNotes();
 
   // Навешиваем обработчики на кнопки переключения месяцев
-  document.getElementById("prev-month").addEventListener("click", () => {
+  document.getElementById("prev-month").addEventListener("click", choosePrevMonth);
+
+  function choosePrevMonth() {
     let newMonth = currentMonth - 1;
     let newYear = currentYear;
     if (newMonth < 0) {  // Если новый месяц стал меньше 0 (т.е. меньше января)
@@ -167,9 +169,11 @@ function updateCalendar(year, month) {
       newYear--;  // И уменьшаем год на 1 — переходим в декабрь предыдущего года
     }
     updateCalendar(newYear, newMonth);
-  });
+  }
 
-  document.getElementById("next-month").addEventListener("click", () => {
+  document.getElementById("next-month").addEventListener("click", chooseNextMonth);
+
+  function chooseNextMonth() {
     let newMonth = currentMonth + 1;
     let newYear = currentYear;
     if (newMonth > 11) {
@@ -177,9 +181,48 @@ function updateCalendar(year, month) {
       newYear++;
     }
     updateCalendar(newYear, newMonth);
-  });
+  }
+
+  return {
+    prevmonth: choosePrevMonth,
+    nextmonth: chooseNextMonth
+  };
 }
 
-// Запускаем начальную загрузку календаря
-updateCalendar();
 
+
+// Запускаем начальную загрузку календаря
+const monthFunctions = updateCalendar();
+
+let startX = 0;
+let startY = 0;
+let endX = 0;
+let endY = 0;
+
+document.addEventListener('touchstart', (e) => {
+  const touch = e.touches[0];
+  startX = touch.clientX;
+  startY = touch.clientY;
+});
+
+document.addEventListener('touchmove', (e) => {
+  const touch = e.touches[0];
+  endX = touch.clientX;
+  endY = touch.clientY;
+});
+
+document.addEventListener('touchend', () => {
+  const diffX = endX - startX;
+  const diffY = endY - startY;
+
+  if (Math.abs(diffX) > Math.abs(diffY)) {
+    // Горизонтальный свайп
+    if (diffX > 50) {
+      console.log('Свайп вправо');
+      monthFunctions.nextmonth();
+    } else if (diffX < -50) {
+      console.log('Свайп влево');
+      monthFunctions.prevmonth();
+    }
+  } 
+});
