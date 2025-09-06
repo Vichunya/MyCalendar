@@ -117,8 +117,6 @@ function saveCurrentNote() {
   }
 }
 
-
-
 // Навешиваем обработчик на кнопку закрытия модального окна
 closeButton.addEventListener('click', () => {
   saveCleanNotes();
@@ -189,8 +187,6 @@ function updateCalendar(year, month) {
   };
 }
 
-
-
 // Запускаем начальную загрузку календаря
 const monthFunctions = updateCalendar();
 
@@ -205,11 +201,7 @@ document.addEventListener('touchstart', (e) => {
   startY = touch.clientY;
 });
 
-document.addEventListener('touchmove', (e) => {
-  const touch = e.touches[0];
-  endX = touch.clientX;
-  endY = touch.clientY;
-});
+
 
 document.addEventListener('touchend', () => {
   const diffX = endX - startX;
