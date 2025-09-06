@@ -215,10 +215,10 @@ document.addEventListener('touchend', () => {
     // Горизонтальный свайп
     if (diffX > 50) {
       console.log('Свайп вправо');
-      monthFunctions.nextmonth();
+      monthFunctions.prevmonth();
     } else if (diffX < -50) {
       console.log('Свайп влево');
-      monthFunctions.prevmonth();
+      monthFunctions.nextmonth();
     }
   } 
 });
