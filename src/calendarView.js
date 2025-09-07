@@ -9,7 +9,7 @@ const monthNames = [
 const dayNames = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
 
 // Экспортируем переменные, чтобы можно было их использовать в main.js
-export { monthNames, dayNames };  // dayNames ? 
+export { monthNames, dayNames };  // 
 
 // Генерация календаря по году и месяцу
 export function generateCalendar(year, month) {
@@ -20,7 +20,7 @@ export function generateCalendar(year, month) {
 
     const firstDay = new Date(year, month, 1); // Первый день месяца
     const lastDay = new Date(year, month + 1, 0); // Последний день месяца
-    const startDay = (firstDay.getDay() + 6) % 7; // Понедельник = 0
+    const startDay = (firstDay.getDay() + 6) % 7; // чтобы пн стал 0, неделя с пн, по умолчанию JS 0 - это вскр 
 
     // Создаем заголовок с месяцем и годом, добавляем стрелки для переключения
     let html = `
