@@ -195,9 +195,9 @@ let startY = 0;
 let endX = 0;
 let endY = 0;
 
-document.addEventListener('touchstart', (e) => {
-  const touch = e.touches[0];
-  startX = touch.clientX;
+document.addEventListener('touchstart', (e) => { // e — это объект события при срабатывании события touchstart, touchmove, touchend
+  const touch = e.touches[0]; // e содержит данные о событии: координаты, целевой элемент, нажатые клавиши 
+  startX = touch.clientX;    // touches — это свойство объекта события e // e.touches[0] — первый палец, который касается экрана
   startY = touch.clientY;
 });
 
@@ -211,7 +211,7 @@ document.addEventListener('touchend', () => {
   const diffX = endX - startX;
   const diffY = endY - startY;
 
-  if (Math.abs(diffX) > Math.abs(diffY)) {
+  if (Math.abs(diffX) > Math.abs(diffY)) { // возвращает абсолютное значение числа (без знака) Math.abs(-5) → 5
     // Горизонтальный свайп
     if (diffX > 50) {
       console.log('Свайп вправо');
@@ -222,3 +222,5 @@ document.addEventListener('touchend', () => {
     }
   } 
 });
+
+
