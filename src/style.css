@@ -130,3 +130,9 @@
 }
 
 
+.today {
+  background-color: pink;
+  border-radius: 50%;
+  color: white;
+  font-weight: bold;
+}

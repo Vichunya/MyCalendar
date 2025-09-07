@@ -47,7 +47,15 @@ export function generateCalendar(year, month) {
     // Заполняем дни месяца
     for (let date = 1; date <= lastDay.getDate(); date++) {
         const currentDay = (startDay + date - 1) % 7;
-        html += `<td>${date}</td>`;
+
+        // проверяем, является ли этот день сегодняшним // для подсветки текущего дня 
+    const isToday =               // && - «Это сегодняшний день только если одновременно совпадают число, месяц и год»
+        date === now.getDate() && 
+        month === now.getMonth() && 
+        year === now.getFullYear();
+
+    html += `<td class="${isToday ? "today" : ""}">${date}</td>`; // если isToday === true, то в атрибут class попадёт "today", иначе класс будет пустым ("")
+                                                                  
         if (currentDay === 6 && date !== lastDay.getDate()) {
             html += `</tr><tr class="dates" data-month="${monthNames[month]}" data-year="${year}">`;
         }
