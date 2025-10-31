@@ -38,9 +38,8 @@ function dateClickHandlers() {
 
       // Восстанавливаем каждую заметку
       bulletList.forEach(bullet => {
-        const bulletElement = createBulletElement(bullet.text); // только текст
-        const checkbox = bulletElement.querySelector('input[type="checkbox"]');
-        checkbox.checked = bullet.checked;//bullet.checked для сохранения галочки после закрытия //устанавливает это состояние в интерфейсе при загрузке
+        console.log(bullet);
+        const bulletElement = createBulletElement(bullet); // только текст
 
         if (bullet.checked) {
           const textSpan = bulletElement.querySelector('span');
@@ -140,7 +139,8 @@ function saveCleanNotes() {
 noteArea.addEventListener('keydown', (event) => {
   if (event.key === 'Enter') {
     event.preventDefault();
-    const bulletDiv = createBulletElement(noteArea.value);
+    const bullet = {text: noteArea.value, checked: false};
+    const bulletDiv = createBulletElement(bullet);
     noteArea.value = '';
     noteContent.appendChild(bulletDiv);
   }
@@ -220,11 +220,12 @@ document.addEventListener('touchend', () => {
       console.log('Свайп влево');
       monthFunctions.nextmonth();
     }
-  } 
+  }
 });
 
 
 const weatherForecast = document.querySelector('.weather');
+console.log("weatherForecast:" + weatherForecast);
 let url = "https://api.open-meteo.com/v1/forecast?latitude=55.7522&longitude=37.6156&daily=sunrise&hourly=temperature_2m,rain&timezone=Europe%2FMoscow&forecast_days=2";
 let response = await fetch(url);
 if (response.ok) { // если HTTP-статус в диапазоне 200-299
@@ -242,9 +243,16 @@ if (response.ok) { // если HTTP-статус в диапазоне 200-299
   let currentTime = new Date();
   console.log(currentTime.getHours());
   let currentHours = currentTime.getHours();
+  let stringForecast = `прогноз погоды: ${time[currentHours]} ${temperature[currentHours]}° ${rain[currentHours]}mm`;
+
+
   for (let i = 0; i < 3; i++) {
-    console.log(temperature[currentHours + i]);
+    console.log(weatherForecast.innerHTML);
+    weatherForecast.innerHTML = temperature[currentHours + i];
   }
+  weatherForecast.innerHTML = stringForecast;
 } else {
   alert("Ошибка HTTP: " + response.status);
 }
+
+
