@@ -38,7 +38,7 @@ function dateClickHandlers() {
 
       // Восстанавливаем каждую заметку
       bulletList.forEach(bullet => {
-        console.log(bullet);
+
         const bulletElement = createBulletElement(bullet); // только текст
 
         if (bullet.checked) {
@@ -139,7 +139,7 @@ function saveCleanNotes() {
 noteArea.addEventListener('keydown', (event) => {
   if (event.key === 'Enter') {
     event.preventDefault();
-    const bullet = {text: noteArea.value, checked: false};
+    const bullet = { text: noteArea.value, checked: false };
     const bulletDiv = createBulletElement(bullet);
     noteArea.value = '';
     noteContent.appendChild(bulletDiv);
@@ -243,14 +243,14 @@ if (response.ok) { // если HTTP-статус в диапазоне 200-299
   let currentTime = new Date();
   console.log(currentTime.getHours());
   let currentHours = currentTime.getHours();
-  let stringForecast = `прогноз погоды: ${time[currentHours]} ${temperature[currentHours]}° ${rain[currentHours]}mm`;
+  //let stringForecast = `прогноз погоды: ${time[currentHours]} ${temperature[currentHours]}° ${rain[currentHours]}mm`;
 
-
+  weatherForecast.innerHTML = "прогноз погоды: ";
   for (let i = 0; i < 3; i++) {
     console.log(weatherForecast.innerHTML);
-    weatherForecast.innerHTML = temperature[currentHours + i];
+    weatherForecast.innerHTML += `${temperature[currentHours + i]}° `;
   }
-  weatherForecast.innerHTML = stringForecast;
+  //weatherForecast.innerHTML = stringForecast;
 } else {
   alert("Ошибка HTTP: " + response.status);
 }
