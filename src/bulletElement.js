@@ -12,7 +12,7 @@ export function createBulletElement(bullet) {
     });
 
     // ЧЕКБОКС 
-    const checkbox = document.createElement('input'); // Создаём чекбокс
+    const checkbox = document.createElement('input'); // Создаём инпут 
     checkbox.type = 'checkbox'; // Указываем тип
     checkbox.checked = bullet.checked;//bullet.checked для сохранения галочки после закрытия //устанавливает это состояние в интерфейсе при загрузке
 

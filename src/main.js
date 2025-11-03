@@ -248,7 +248,7 @@ if (response.ok) { // если HTTP-статус в диапазоне 200-299
   weatherForecast.innerHTML = "прогноз погоды: ";
   for (let i = 0; i < 3; i++) {
     console.log(weatherForecast.innerHTML);
-    weatherForecast.innerHTML += `${temperature[currentHours + i]}° `;
+    weatherForecast.innerHTML += ` ${time[currentHours + i]} ${temperature[currentHours + i]}° ${rain[currentHours]}mm`;
   }
   //weatherForecast.innerHTML = stringForecast;
 } else {
