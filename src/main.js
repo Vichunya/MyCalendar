@@ -19,7 +19,7 @@ function dateClickHandlers() {
   dates.forEach(date => {  // dates это даты 
     date.addEventListener('click', function (event) {
       const day = event.target.textContent; // это просто текст, который находится внутри ячейки <td>, по которой кликнули
-      if (!day) return; // пустые ячейки 
+      if (!day) return; // пустые ячейки, ничего не возвращает  
 
       const datesRow = event.target.closest('tr.dates');//Находим ближайший родительский <tr> с классом dates — это строка таблицы, для опр-я месяца и года 
       const month = datesRow.dataset.month;
