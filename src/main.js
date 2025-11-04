@@ -249,7 +249,7 @@ if (response.ok) { // если HTTP-статус в диапазоне 200-299
   for (let i = 0; i < 3; i++) {
     console.log(weatherForecast.innerHTML);
     const formattedTime = time[currentHours + i].replace("T", " ");
-weatherForecast.innerHTML += `${formattedTime} ${temperature[currentHours + i]}° ${rain[currentHours + i]}mm<br>`;
+    weatherForecast.innerHTML += `${formattedTime} ${temperature[currentHours + i]}° ${rain[currentHours + i]}mm<br>`;
 
     //weatherForecast.innerHTML += ` ${time[currentHours + i]} ${temperature[currentHours + i]}° ${rain[currentHours]}mm<br>`;
   }
