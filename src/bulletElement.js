@@ -41,4 +41,8 @@ export function getBulletText(bulletDiv) { // для получения текс
     return span.textContent; // Возвращает текстовое содержимое этого <span>
 }
 
+export function getBulletChecked(bulletDiv) {
+    const checkbox = bulletDiv.querySelector('input[type="checkbox"]');//для сох-я зачерк 
+    return checkbox.checked;
+}
 

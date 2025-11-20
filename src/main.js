@@ -1,6 +1,6 @@
 
 import { generateCalendar, monthNames } from './calendarView.js';
-import { createBulletElement, getBulletText } from './bulletElement.js';
+import { createBulletElement, getBulletText, getBulletChecked } from './bulletElement.js';
 
 // Ссылка на модальное окно и элементы заметок
 const modal = document.querySelector('.modal');
@@ -98,12 +98,12 @@ function saveCurrentNote() {
     const bulletList = [];
     bulletsDivs.forEach(bulletDiv => { // bulletDiv - контейнер для одной заметки 
       const textFromSpan = getBulletText(bulletDiv);
-      const checkbox = bulletDiv.querySelector('input[type="checkbox"]');//для сох-я зачерк 
-
+      const bulletCheck = getBulletChecked(bulletDiv);
+ 
       bulletList.push(
         {
           text: textFromSpan,
-          checked: checkbox.checked // сохраняем состояние
+          checked: bulletCheck // сохраняем состояние
         }
       ); // bulletList — это текст всех заметок только одного выбранного дня
     });
@@ -245,7 +245,7 @@ if (response.ok) { // если HTTP-статус в диапазоне 200-299
   let currentHours = currentTime.getHours();
   //let stringForecast = `прогноз погоды: ${time[currentHours]} ${temperature[currentHours]}° ${rain[currentHours]}mm`;
 
-  weatherForecast.innerHTML = "прогноз погоды: ";
+  weatherForecast.innerHTML = "прогноз погоды в Москве: ";
   for (let i = 0; i < 3; i++) {
     console.log(weatherForecast.innerHTML);
     const formattedTime = time[currentHours + i].replace("T", " ");
