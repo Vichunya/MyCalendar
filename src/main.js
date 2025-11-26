@@ -231,3 +231,15 @@ divTbilisi.innerHTML = weatherTbilsi;
 const weatherMoscow = await getWeather(55.7512, 37.6184, "Moscow");
 const divMoscow = document.getElementById("moscow");
 divMoscow.innerHTML = weatherMoscow;
+
+const sourceFn = (a, test, b) => {
+  // const c = a + 2
+  // return c * b
+  return a + b
+}
+const fnText = sourceFn.toString();
+console.log(fnText);
+const params = fnText.slice(fnText.indexOf('(') + 1, fnText.indexOf(')'))
+.split(',')
+.map(p => p.trim())
+console.log(params);
