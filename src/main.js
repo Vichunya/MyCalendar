@@ -232,6 +232,7 @@ const weatherMoscow = await getWeather(55.7512, 37.6184, "Moscow");
 const divMoscow = document.getElementById("moscow");
 divMoscow.innerHTML = weatherMoscow;
 
+//упражнение из другого учебника 
 const sourceFn = (a, test, b) => {
   // const c = a + 2
   // return c * b
