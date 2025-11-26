@@ -224,4 +224,10 @@ document.addEventListener('touchend', () => {
   }
 });
 
-getWeather();
+const weatherTbilsi = await getWeather(41.6941, 44.8337, "Tbilisi");
+const divTbilisi = document.getElementById("tbilisi");
+divTbilisi.innerHTML = weatherTbilsi;
+
+const weatherMoscow = await getWeather(55.7512, 37.6184, "Moscow");
+const divMoscow = document.getElementById("moscow");
+divMoscow.innerHTML = weatherMoscow;
