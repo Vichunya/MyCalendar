@@ -100,7 +100,7 @@ function saveCurrentNote() {
     bulletsDivs.forEach(bulletDiv => { // bulletDiv - контейнер для одной заметки 
       const textFromSpan = getBulletText(bulletDiv);
       const bulletCheck = getBulletChecked(bulletDiv);
- 
+
       bulletList.push(
         {
           text: textFromSpan,
@@ -224,13 +224,17 @@ document.addEventListener('touchend', () => {
   }
 });
 
-const weatherTbilsi = await getWeather(41.6941, 44.8337, "Tbilisi");
+const weatherTbilisi = await getWeather(41.6941, 44.8337, "Tbilisi");
 const divTbilisi = document.getElementById("tbilisi");
-divTbilisi.innerHTML = weatherTbilsi;
+divTbilisi.innerHTML = weatherTbilisi;
 
 const weatherMoscow = await getWeather(55.7512, 37.6184, "Moscow");
 const divMoscow = document.getElementById("moscow");
 divMoscow.innerHTML = weatherMoscow;
+
+const timeNow = await getCurrentTime();
+const currentTime = document.getElementById("currentTime");
+currentTime.innerHTML = timeNow;
 
 //упражнение из другого учебника 
 const sourceFn = (a, test, b) => {
@@ -241,6 +245,33 @@ const sourceFn = (a, test, b) => {
 const fnText = sourceFn.toString();
 console.log(fnText);
 const params = fnText.slice(fnText.indexOf('(') + 1, fnText.indexOf(')'))
-.split(',')
-.map(p => p.trim())
+  .split(',')
+  .map(p => p.trim())
 console.log(params);
+
+// Текущее время 
+async function getCurrentTime() {
+  let url = `https://worldtimeapi.org/api/timezone/Europe/Moscow`;
+  let response = await fetch(url);
+  //let currentTime = `текущее время ${city}: `;
+  if (response.ok) { // если HTTP-статус в диапазоне 200-299, получаем тело ответа 
+    let json = await response.json(); // тело ответа сервера преобразованный в json
+    let timeJson = json.datetime;
+
+    const date = new Date(timeJson);
+
+    const time = date.toLocaleTimeString("ru-RU", {
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+    return time;
+
+  } else {
+    alert("Ошибка HTTP: " + response.status);
+  }
+  
+}
+getCurrentTime();
+
+
+
