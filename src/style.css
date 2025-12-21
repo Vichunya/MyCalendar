@@ -10,13 +10,15 @@
     margin-bottom: 10px;
 }
 
-.month button { /* Стрелки месяца */
+.month button {
+    /* Стрелки месяца */
     font-size: 22px;
     background: none;
     border: none;
     cursor: pointer;
     padding: 5px 10px;
-    user-select: none; /* Чтобы стрелки нельзя было выделить */
+    user-select: none;
+    /* Чтобы стрелки нельзя было выделить */
 }
 
 .month button:hover {
@@ -25,7 +27,8 @@
     border-radius: 5px;
 }
 
-.month h2 { /* Применить эти стили ко всем тегам <h2>, которые находятся внутри элемента с классом .month */
+.month h2 {
+    /* Применить эти стили ко всем тегам <h2>, которые находятся внутри элемента с классом .month */
     margin: 0;
     font-weight: 600;
     font-size: 24px;
@@ -131,22 +134,26 @@
 
 
 .today {
-  background-color: pink;
-  border-radius: 50%;
-  color: white;
-  font-weight: bold;
+    background-color: pink;
+    border-radius: 50%;
+    color: white;
+    font-weight: bold;
 }
 
 .weather {
     display: block;
     margin-left: auto;
-    border-color: gold;
     background-color: gold;
-    border-color: transparent;
 }
 
 #tbilisi {
-  margin-bottom: 20px;
-  background-color: pink;
+    margin-bottom: 20px;
+    background-color: pink;
 }
 
+#currentTime {
+    position: absolute;
+    right: 20px;   
+    top: 100px;     
+    background-color: lightblue;
+}

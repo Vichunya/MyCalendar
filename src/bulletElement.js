@@ -39,7 +39,7 @@ export function createBulletElement(bullet) {
 export function getBulletText(bulletDiv) { // для получения текста заметки //bulletDiv - одна заметка — это один блок с текстом, чекбоксом и кнопкой
     const span = bulletDiv.querySelector('span'); // Находит внутри bulletDiv первый тег <span>
     return span.textContent; // Возвращает текстовое содержимое этого <span>
-}
+} // ф-я используется в момент закрытия, когда закрываем окно, чтобы сохранить текст 
 
 export function getBulletChecked(bulletDiv) {
     const checkbox = bulletDiv.querySelector('input[type="checkbox"]');//для сох-я зачерк 
