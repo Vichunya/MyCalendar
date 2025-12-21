@@ -41,7 +41,7 @@ export function getBulletText(bulletDiv) { // для получения текс
     return span.textContent; // Возвращает текстовое содержимое этого <span>
 } // ф-я используется в момент закрытия, когда закрываем окно, чтобы сохранить текст 
 
-export function getBulletChecked(bulletDiv) {
+export function getBulletChecked(bulletDiv) { // ф-я показывает значение чекбокса 
     const checkbox = bulletDiv.querySelector('input[type="checkbox"]');//для сох-я зачерк 
     return checkbox.checked;
 }
