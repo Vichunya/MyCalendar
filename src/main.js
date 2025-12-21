@@ -94,19 +94,19 @@ function cleanNote() {           //replaceChildren()-удаляет все до�
 
 // Сохраняем заметки в localStorage
 function saveCurrentNote() {
-  if (currentDateKey) {
-    const bulletsDivs = noteContent.querySelectorAll('div'); // bulletsDivs — это контейнеры для 1 дня
-    const bulletList = [];
-    bulletsDivs.forEach(bulletDiv => { // bulletDiv - контейнер для одной заметки 
-      const textFromSpan = getBulletText(bulletDiv);
-      const bulletCheck = getBulletChecked(bulletDiv);
+  if (currentDateKey) { // Текущая выбранная дата сurrentDateKey //noteContent контейнер внутри МО, где все заметки хранятся внутри выбранной даты
+    const bulletsDivs = noteContent.querySelectorAll('div'); // bulletsDivs — это контейнеры для 1 дня 
+    const bulletList = []; // bulletList — это текст всех заметок только одного выбранного дня
+    bulletsDivs.forEach(bulletDiv => { // bulletDiv - контейнер для одной заметки //forEach собирает все заметки одного дня в массив bulletList, чтобы их потом сохранить
+      const textFromSpan = getBulletText(bulletDiv); // вытаскивает текст 
+      const bulletCheck = getBulletChecked(bulletDiv); // возв-т значение чекбокса 
 
       bulletList.push(
         {
           text: textFromSpan,
           checked: bulletCheck // сохраняем состояние
         }
-      ); // bulletList — это текст всех заметок только одного выбранного дня
+      ); 
     });
 
     if (bulletList.length === 0) {
