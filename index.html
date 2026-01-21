@@ -10,7 +10,7 @@
 </head>
 
 <body>
-
+<div id = "weatherContainer"></div> 
   <div class = "weather" id = "tbilisi"></div>
   <div class = "weather" id = "moscow"></div>
   <div class = "currentTime" id="currentTime"></div> 
@@ -32,6 +32,14 @@
 
 
   <script type="module" src="src/main.js"></script>
+
+  <template id = "cityTemplate">
+  <div id = "titleForecast">Прогноз погоды на 3 часа в <span id = "city"></span>:</div>
+  <div id = "hour_1"></div>
+  <div id = "hour_2"></div>
+  <div id = "hour_3"></div>
+
+</template>
 
 </body>
 

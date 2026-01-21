@@ -1,7 +1,7 @@
 
 import { generateCalendar, monthNames } from './calendarView.js';
 import { createBulletElement, getBulletText, getBulletChecked } from './bulletElement.js';
-import { getWeather } from './weather.js';
+import { getWeather, getWeatherV2,createCityWeather } from './weather.js';
 
 // Ссылка на модальное окно и элементы заметок
 const modal = document.querySelector('.modal');
@@ -232,9 +232,14 @@ const weatherMoscow = await getWeather(55.7512, 37.6184, "Moscow");
 const divMoscow = document.getElementById("moscow");
 divMoscow.innerHTML = weatherMoscow;
 
-const timeNow = await getCurrentTime("Moscow");
-const divCurrentTime = document.getElementById("currentTime");
-divCurrentTime.innerHTML = timeNow;
+const weatherContainer = document.getElementById('weatherContainer');
+const weatherMoscowElement = createCityWeather(55.7512, 37.6184, "Moscow");
+weatherContainer.append(weatherMoscowElement);
+
+
+//const timeNow = await getCurrentTime("Moscow");
+//const divCurrentTime = document.getElementById("currentTime");
+//divCurrentTime.innerHTML = timeNow;
 
 
 // Текущее время 
@@ -260,7 +265,7 @@ async function getCurrentTime(city) {
     alert("Ошибка HTTP: " + response.status);
   }
 }
-//getCurrentTime();
+
 
 
 
