@@ -233,8 +233,11 @@ const divMoscow = document.getElementById("moscow");
 divMoscow.innerHTML = weatherMoscow;
 
 const weatherContainer = document.getElementById('weatherContainer');
-const weatherMoscowElement = createCityWeather(55.7512, 37.6184, "Moscow");
+const weatherMoscowElement = await createCityWeather(55.7512, 37.6184, "Moscow");
 weatherContainer.append(weatherMoscowElement);
+
+const weatherTbilisiElement = await createCityWeather(41.6941, 44.8337, "Tbilisi");
+weatherContainer.append(weatherTbilisiElement);
 
 
 //const timeNow = await getCurrentTime("Moscow");
