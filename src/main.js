@@ -2,6 +2,7 @@
 import { generateCalendar, monthNames } from './calendarView.js';
 import { createBulletElement, getBulletText, getBulletChecked } from './bulletElement.js';
 import { getWeather, getWeatherV2,createCityWeather } from './weather.js';
+import {generateSmallCalendar} from './smallCalendarView.js';
 
 // Ссылка на модальное окно и элементы заметок
 const modal = document.querySelector('.modal');
@@ -151,9 +152,12 @@ noteArea.addEventListener('keydown', (event) => {
 function updateCalendar(year, month) {
   // Генерируем календарь и получаем текущие год и месяц
   const res = generateCalendar(year, month);
+  console.log(month);
+  
+  
   currentYear = res.year;
   currentMonth = res.month;
-
+generateSmallCalendar(currentYear,currentMonth-1);
   dateClickHandlers();
   highlightDaysWithNotes();
 
@@ -226,14 +230,16 @@ document.addEventListener('touchend', () => {
 
 
 const weatherContainer = document.getElementById('weatherContainer');
-const weatherMoscowElement = await createCityWeather(55.7512, 37.6184, "Moscow");
-weatherContainer.append(weatherMoscowElement);
 
 const weatherTbilisiElement = await createCityWeather(41.6941, 44.8337, "Tbilisi");
-
 const tbilisi = weatherTbilisiElement.querySelector('.weatherCity');
 tbilisi.classList.add("tbilisi");
 weatherContainer.append(weatherTbilisiElement);
+
+const weatherMoscowElement = await createCityWeather(55.7512, 37.6184, "Moscow");
+weatherContainer.append(weatherMoscowElement);
+
+
 
 
 const timeNow = await getCurrentTime("Moscow");

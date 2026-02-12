@@ -1,0 +1,57 @@
+
+// Массив с названиями месяцев
+const monthNames = [
+    "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
+    "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
+];
+
+// Массив с названиями дней недели
+const dayNames = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
+
+
+// Генерация календаря по году и месяцу
+export function generateSmallCalendar(year, month) {
+    // Если не передали год/месяц, используем текущие
+    const now = new Date(); // Создаём объект now, который содержит текущую дату и время
+    if (year === undefined) year = now.getFullYear();// Если параметр year не передан (то есть undefined), устанавливаем его равным текущему году из now
+    if (month === undefined) month = now.getMonth();
+
+    const firstDay = new Date(year, month, 1); // Первый день месяца
+    const lastDay = new Date(year, month + 1, 0); // Последний день месяца
+    const startDay = (firstDay.getDay() + 6) % 7; // чтобы пн стал 0, неделя с пн, по умолчанию JS 0 - это вскр 
+
+    // Создаем заголовок с месяцем и годом, добавляем стрелки для переключения
+    let html = '';
+
+    html += `<table border="0"><tr class="weekdays">`;
+
+    // Заголовки дней недели
+    for (let dayName of dayNames) {
+        html += `<th>${dayName}</th>`;
+    }
+    html += `</tr><tr data-month="${monthNames[month]}" data-year="${year}">`;
+
+    // Пустые ячейки до первого дня месяца
+    for (let i = 0; i < startDay; i++) {
+        html += `<td></td>`;
+    }
+
+    // Заполняем дни месяца
+    for (let date = 1; date <= lastDay.getDate(); date++) {
+        const currentDay = (startDay + date - 1) % 7;
+
+    html += `<td>${date}</td>`; // если isToday === true, то в атрибут class попадёт "today", иначе класс будет пустым ("")
+                                                                  
+        if (currentDay === 6 && date !== lastDay.getDate()) {
+            html += `</tr><tr class="dates" data-month="${monthNames[month]}" data-year="${year}">`;
+        }
+    }
+
+    html += `</tr></table>`;
+
+    // Вставляем сгенерированный календарь в контейнер
+    document.getElementById("leftCalendar").innerHTML = html;
+
+    // Возвращаем текущий год и месяц для дальнейшего использования
+    return { year, month };
+}
