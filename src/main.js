@@ -224,19 +224,15 @@ document.addEventListener('touchend', () => {
   }
 });
 
-const weatherTbilisi = await getWeather(41.6941, 44.8337, "Tbilisi");
-const divTbilisi = document.getElementById("tbilisi");
-divTbilisi.innerHTML = weatherTbilisi;
-
-const weatherMoscow = await getWeather(55.7512, 37.6184, "Moscow");
-const divMoscow = document.getElementById("moscow");
-divMoscow.innerHTML = weatherMoscow;
 
 const weatherContainer = document.getElementById('weatherContainer');
 const weatherMoscowElement = await createCityWeather(55.7512, 37.6184, "Moscow");
 weatherContainer.append(weatherMoscowElement);
 
 const weatherTbilisiElement = await createCityWeather(41.6941, 44.8337, "Tbilisi");
+
+const tbilisi = weatherTbilisiElement.querySelector('.weatherCity');
+tbilisi.classList.add("tbilisi");
 weatherContainer.append(weatherTbilisiElement);
 
 

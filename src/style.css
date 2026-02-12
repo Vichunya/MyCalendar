@@ -140,14 +140,18 @@
     font-weight: bold;
 }
 
-.weather {
-    display: block;
-    margin-left: auto;
-    background-color: gold;
+.weatherContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+   
 }
 
-#tbilisi {
-    margin-bottom: 20px;
+.weatherCity {
+ background-color: gold;
+}
+
+.tbilisi {
     background-color: pink;
 }
 
