@@ -236,9 +236,9 @@ tbilisi.classList.add("tbilisi");
 weatherContainer.append(weatherTbilisiElement);
 
 
-//const timeNow = await getCurrentTime("Moscow");
-//const divCurrentTime = document.getElementById("currentTime");
-//divCurrentTime.innerHTML = timeNow;
+const timeNow = await getCurrentTime("Moscow");
+const divCurrentTime = document.getElementById("currentTime");
+divCurrentTime.innerHTML = timeNow;
 
 
 // Текущее время 
